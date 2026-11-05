@@ -1,0 +1,1555 @@
+/*
+ * The look of the slides, carried over from the ng-objects talk's deck (blue here, amber there). Every size is relative to the stage (cqh/cqw, or em from the stage's font size), so a slide
+ * looks the same at any window size: designed on a laptop, shown on a projector.
+ */
+
+@font-face {
+	font-family: "Inter";
+	font-style: normal;
+	font-weight: 100 900;
+	font-display: block;
+	src: url("fonts/inter-latin-ext.woff2") format("woff2");
+	unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+@font-face {
+	font-family: "Inter";
+	font-style: normal;
+	font-weight: 100 900;
+	font-display: block;
+	src: url("fonts/inter-latin.woff2") format("woff2");
+	unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+	font-family: "JetBrains Mono";
+	font-style: normal;
+	font-weight: 100 800;
+	font-display: block;
+	src: url("fonts/jetbrains-mono-latin-ext.woff2") format("woff2");
+	unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+@font-face {
+	font-family: "JetBrains Mono";
+	font-style: normal;
+	font-weight: 100 800;
+	font-display: block;
+	src: url("fonts/jetbrains-mono-latin.woff2") format("woff2");
+	unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/* Dark by default (a dim room); press t for light (a bright one, or a washed-out projector) */
+:root {
+	--backdrop: #000;
+	--bg: #11161c;
+	--fg: #eef1f4;
+	--muted: #8b97a5;
+	--line: #26303a;
+	--accent: #5aa9ff;
+	--accent-fg: #06111f;
+	--code-bg: #0a0e12;
+	--token-keyword: #5aa9ff;
+	--token-string: #8fd6a8;
+	--token-type: #f0c674;
+	--token-number: #e3b3ff;
+	--token-comment: #6c7886;
+	--token-punctuation: #a9b4c0;
+	--glow-1: rgb(90 169 255 / 0.22);
+	--glow-2: rgb(240 161 74 / 0.14);
+	--glow-3: rgb(170 120 255 / 0.16);
+	color-scheme: dark;
+}
+
+:root[data-theme="light"] {
+	--backdrop: #d9d6cf;
+	--bg: #fbfaf7;
+	--fg: #15191e;
+	--muted: #5f6b78;
+	--line: #e2ded5;
+	--accent: #1f63c4;
+	--accent-fg: #fff;
+	--code-bg: #f1eee7;
+	--token-keyword: #1f63c4;
+	--token-string: #2f7d4f;
+	--token-type: #9a5b00;
+	--token-number: #8a3fb5;
+	--token-comment: #8a929b;
+	--token-punctuation: #4a535d;
+	--glow-1: rgb(31 99 196 / 0.10);
+	--glow-2: rgb(240 161 74 / 0.12);
+	--glow-3: rgb(150 100 230 / 0.08);
+	color-scheme: light;
+}
+
+/* Moving between slides is a full page load; this makes it a quick cross-fade where the browser supports it */
+@view-transition {
+	navigation: auto;
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+	animation-duration: 0.2s;
+}
+
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
+html,
+body {
+	height: 100%;
+	margin: 0;
+}
+
+body {
+	display: grid;
+	place-items: center;
+	overflow: hidden;
+	background: var(--backdrop);
+	color: var(--fg);
+	font-family: "Inter", system-ui, sans-serif;
+	font-feature-settings: "cv11", "ss01";
+	-webkit-font-smoothing: antialiased;
+}
+
+/* The 16:9 stage, as large as the window allows */
+.stage {
+	position: relative;
+	width: min(100vw, calc(100vh * 16 / 9));
+	aspect-ratio: 16 / 9;
+	overflow: hidden;
+	container-type: size;
+	background: var(--bg);
+	font-size: 4.2cqh;
+	line-height: 1.35;
+}
+
+/*
+ * A few soft glows behind the slides, drifting slowly: a little life on the background, kept faint and far from the
+ * middle so text stays as readable as on a plain one. Still for those who'd rather have no motion.
+ */
+.stage::before {
+	content: "";
+	position: absolute;
+	inset: -12%;
+	z-index: 0;
+	pointer-events: none;
+	background:
+		radial-gradient(closest-side at 18% 22%, var(--glow-1), transparent),
+		radial-gradient(closest-side at 85% 80%, var(--glow-2), transparent),
+		radial-gradient(closest-side at 80% 15%, var(--glow-3), transparent);
+	animation: drift 60s ease-in-out infinite alternate;
+}
+
+@keyframes drift {
+	from {
+		transform: translate3d(-3%, -2%, 0) rotate(0deg);
+	}
+	to {
+		transform: translate3d(3%, 2%, 0) rotate(8deg);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.stage::before {
+		animation: none;
+	}
+}
+
+.slide {
+	z-index: 1;
+	position: absolute;
+	inset: 0;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	padding: 8cqh 9cqw 12cqh;
+}
+
+h1,
+h2,
+h3,
+p,
+ul {
+	margin: 0;
+}
+
+h1 {
+	font-size: 3.6em;
+	font-weight: 700;
+	letter-spacing: -0.035em;
+	line-height: 1;
+}
+
+h2 {
+	font-size: 1.9em;
+	font-weight: 650;
+	letter-spacing: -0.025em;
+	line-height: 1.1;
+	margin-bottom: 0.9em;
+}
+
+code {
+	font-family: "JetBrains Mono", ui-monospace, monospace;
+	font-size: 0.88em;
+	/* Code as it's typed: no ligatures turning <!-- or -> into arrows */
+	font-variant-ligatures: none;
+}
+
+:not(pre) > code {
+	padding: 0.05em 0.2em;
+	border-radius: 0.25em;
+	background: var(--code-bg);
+}
+
+em {
+	font-style: normal;
+	color: var(--accent);
+}
+
+/* A name that shouldn't break at its hyphen */
+.name {
+	white-space: nowrap;
+}
+
+.aside {
+	margin-top: 1.6em;
+	font-size: 0.72em;
+	color: var(--muted);
+}
+
+/* Title */
+
+.slide-title .kicker {
+	margin-bottom: 1em;
+	font-size: 0.6em;
+	font-weight: 600;
+	letter-spacing: 0.16em;
+	text-transform: uppercase;
+	color: var(--accent);
+}
+
+.slide-title h1 {
+	text-wrap: balance;
+}
+
+.slide-title .subtitle {
+	margin-top: 0.6em;
+	font-size: 1.25em;
+	color: var(--muted);
+}
+
+.slide-title .byline {
+	margin-top: 2.4em;
+	font-size: 0.75em;
+	font-weight: 500;
+}
+
+/* Statement: one sentence, large */
+
+.slide-statement .statement {
+	max-width: 16em;
+	font-size: 2.5em;
+	font-weight: 650;
+	letter-spacing: -0.03em;
+	line-height: 1.1;
+}
+
+/* Section divider */
+
+.slide-section .section-number {
+	font-size: 1.1em;
+	font-weight: 600;
+	letter-spacing: 0.1em;
+	color: var(--accent);
+}
+
+.slide-section h2 {
+	margin: 0.1em 0 0;
+	font-size: 3.4em;
+}
+
+/* Bullets */
+
+.slide-list ul {
+	display: grid;
+	gap: 0.6em;
+	padding: 0;
+	list-style: none;
+	font-size: 1em;
+}
+
+.slide-list li {
+	position: relative;
+	padding-left: 1.1em;
+}
+
+.slide-list li::before {
+	content: "";
+	position: absolute;
+	left: 0;
+	top: 0.5em;
+	width: 0.4em;
+	height: 0.4em;
+	border-radius: 50%;
+	background: var(--accent);
+}
+
+.slide-list .sub-points {
+	gap: 0.3em;
+	margin-top: 0.4em;
+	font-size: 0.8em;
+	color: var(--muted);
+}
+
+.slide-list .sub-points li::before {
+	width: 0.3em;
+	height: 0.3em;
+	top: 0.55em;
+	background: var(--muted);
+}
+
+/* Code */
+
+.slide-code pre {
+	margin: 0;
+	padding: 1.1em 1.4em;
+	overflow: hidden;
+	border: 1px solid var(--line);
+	border-radius: 0.45em;
+	background: var(--code-bg);
+	font-size: 0.7em;
+	line-height: 1.55;
+	tab-size: 4;
+}
+
+.slide-code pre code {
+	font-size: 1em;
+}
+
+.token.keyword,
+.token.tag,
+.token.boolean {
+	color: var(--token-keyword);
+}
+
+.token.string,
+.token.attr-value {
+	color: var(--token-string);
+}
+
+.token.class-name,
+.token.attr-name,
+.token.function {
+	color: var(--token-type);
+}
+
+.token.number {
+	color: var(--token-number);
+}
+
+.token.comment {
+	color: var(--token-comment);
+	font-style: italic;
+}
+
+.token.punctuation,
+.token.operator {
+	color: var(--token-punctuation);
+}
+
+/* Live demonstrations */
+
+.demo-panel {
+	align-self: flex-start;
+	min-width: 12em;
+	padding: 1em 1.6em 1.2em;
+	border: 1px solid var(--line);
+	border-radius: 0.5em;
+	text-align: center;
+}
+
+.demo-count {
+	font-size: 4em;
+	font-weight: 700;
+	font-variant-numeric: tabular-nums;
+	line-height: 1.05;
+}
+
+.demo-actions {
+	display: flex;
+	justify-content: center;
+	gap: 0.5em;
+	margin-top: 0.6em;
+}
+
+.button {
+	padding: 0.35em 0.9em;
+	border: 1px solid var(--accent);
+	border-radius: 0.35em;
+	background: var(--accent);
+	color: var(--accent-fg);
+	font-size: 0.7em;
+	font-weight: 600;
+	text-decoration: none;
+	cursor: pointer;
+}
+
+.button-quiet {
+	background: transparent;
+	color: var(--accent);
+}
+
+/* Overview: every project, by group, each a link */
+
+.slide-overview {
+	justify-content: flex-start;
+	padding-top: 6cqh;
+}
+
+.slide-overview .kicker,
+.slide-title .kicker {
+	margin-bottom: 0.6em;
+	font-size: 0.55em;
+	font-weight: 600;
+	letter-spacing: 0.16em;
+	text-transform: uppercase;
+	color: var(--accent);
+}
+
+.slide-overview h1 {
+	font-size: 1.8em;
+}
+
+.overview-groups {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: 1.4cqw;
+	margin-top: 4.5cqh;
+}
+
+.overview-group {
+	display: flex;
+	flex-direction: column;
+	gap: 1.2cqh;
+}
+
+.overview-group h3 {
+	padding-bottom: 0.5em;
+	border-bottom: 1px solid var(--line);
+	font-size: 0.42em;
+	font-weight: 600;
+	letter-spacing: 0.12em;
+	text-transform: uppercase;
+	color: var(--muted);
+}
+
+.tile {
+	display: flex;
+	flex-direction: column;
+	gap: 0.3em;
+	padding: 0.5em 0.7em 0.55em;
+	border: 1px solid var(--line);
+	border-radius: 0.45em;
+	background: color-mix(in srgb, var(--fg) 3%, transparent);
+	color: inherit;
+	text-decoration: none;
+	transition: border-color 0.15s, transform 0.15s, background 0.15s;
+}
+
+.tile:hover,
+.tile:focus-visible {
+	border-color: var(--accent);
+	background: color-mix(in srgb, var(--accent) 10%, transparent);
+	transform: translateY(-0.15cqh);
+	outline: none;
+}
+
+.tile-name {
+	font-size: 0.56em;
+	white-space: nowrap;
+	font-weight: 650;
+	letter-spacing: -0.01em;
+	line-height: 1.15;
+}
+
+.tile-tagline {
+	font-size: 0.37em;
+	line-height: 1.3;
+	color: var(--muted);
+}
+
+.tile-since {
+	font-size: 0.34em;
+	font-variant-numeric: tabular-nums;
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+	color: var(--accent);
+}
+
+/* The overview's way into the introduction */
+
+.overview-title {
+	display: flex;
+	align-items: baseline;
+	gap: 0.6em;
+}
+
+.why-link {
+	font-size: 0.6em;
+}
+
+/* Why: the statement's kicker, the path and the shared design */
+
+.slide-statement .kicker {
+	margin-bottom: 1em;
+	font-size: 0.55em;
+	font-weight: 600;
+	letter-spacing: 0.16em;
+	text-transform: uppercase;
+	color: var(--accent);
+}
+
+.path {
+	display: flex;
+	align-items: stretch;
+	gap: 1.2cqw;
+}
+
+.path-step {
+	flex: 1;
+	padding: 0.9em 1em;
+	border: 1px solid var(--line);
+	border-radius: 0.5em;
+}
+
+.path-step-current {
+	border-color: var(--accent);
+	background: color-mix(in srgb, var(--accent) 10%, transparent);
+}
+
+.path-name {
+	font-size: 0.9em;
+	font-weight: 650;
+}
+
+.path-detail {
+	margin-top: 0.5em;
+	font-size: 0.55em;
+	line-height: 1.4;
+	color: var(--muted);
+}
+
+.path-arrow {
+	align-self: center;
+	font-size: 1.2em;
+	color: var(--accent);
+}
+
+.design {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 3cqw;
+}
+
+.design-list {
+	display: grid;
+	gap: 0.8em;
+	padding: 0;
+	list-style: none;
+	font-size: 0.62em;
+	color: var(--muted);
+}
+
+.design-list strong {
+	display: block;
+	margin-bottom: 0.15em;
+	font-size: 1.25em;
+	font-weight: 650;
+	color: var(--fg);
+}
+
+/* Why: how it started */
+
+.slide-origin .kicker {
+	margin-bottom: 1em;
+	font-size: 0.55em;
+	font-weight: 600;
+	letter-spacing: 0.16em;
+	text-transform: uppercase;
+	color: var(--accent);
+}
+
+.split {
+	display: flex;
+	align-items: stretch;
+	gap: 1.5cqw;
+}
+
+.split-side {
+	flex: 1;
+	padding: 0.9em 1.1em;
+	border: 1px dashed var(--line);
+	border-radius: 0.5em;
+}
+
+.split-kept {
+	border: 1px solid var(--accent);
+	background: color-mix(in srgb, var(--accent) 10%, transparent);
+}
+
+.split-name {
+	font-size: 0.95em;
+	font-weight: 650;
+}
+
+.split-detail {
+	margin-top: 0.4em;
+	font-size: 0.6em;
+	color: var(--muted);
+}
+
+.split-frameworks {
+	margin-top: 0.9em;
+	font-family: "JetBrains Mono", ui-monospace, monospace;
+	font-size: 0.45em;
+	color: var(--accent);
+}
+
+.split-crossed {
+	position: relative;
+}
+
+.split-crossed .split-name,
+.split-crossed .split-detail {
+	opacity: 0.55;
+}
+
+/* A red cross over what was left out */
+.cross {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	pointer-events: none;
+}
+
+.cross line {
+	stroke: #e5484d;
+	stroke-width: 6;
+	stroke-linecap: round;
+	vector-effect: non-scaling-stroke;
+}
+
+.split-divider {
+	align-self: center;
+	font-size: 2em;
+	font-weight: 200;
+	color: var(--muted);
+}
+
+/* Why: with hookers and blackjack */
+
+.slide-bender {
+	align-items: center;
+	text-align: center;
+}
+
+.slide-bender h2 {
+	margin-bottom: 0.5em;
+	font-size: 1.9em;
+}
+
+.bender {
+	width: auto;
+	height: auto;
+	max-height: 46cqh;
+	max-width: 80cqw;
+	border-radius: 0.4em;
+	box-shadow: 0 0.6cqh 3cqh rgb(0 0 0 / 0.4);
+}
+
+
+.slide-future h2 {
+	max-width: 22em;
+	font-size: 1.6em;
+	text-wrap: balance;
+}
+
+/* The end: where to follow it all */
+
+.slide-closing .kicker {
+	margin-bottom: 0.8em;
+	font-size: 0.6em;
+	font-weight: 600;
+	letter-spacing: 0.16em;
+	text-transform: uppercase;
+	color: var(--accent);
+}
+
+.slide-closing h1 {
+	font-size: 3.2em;
+}
+
+.closing-link {
+	color: var(--fg);
+	text-decoration: none;
+}
+
+.closing-link:hover {
+	color: var(--accent);
+}
+
+.closing-points {
+	display: grid;
+	gap: 0.5em;
+	margin-top: 1.4em;
+	padding: 0;
+	list-style: none;
+	font-size: 0.9em;
+	color: var(--muted);
+}
+
+/* So far: the recap */
+
+.recap {
+	display: grid;
+	gap: 0.7em;
+}
+
+.recap-item {
+	display: grid;
+	grid-template-columns: 7em 1fr;
+	gap: 1em;
+	align-items: baseline;
+	padding-bottom: 0.6em;
+	border-bottom: 1px solid var(--line);
+}
+
+.recap-name {
+	font-size: 0.85em;
+	font-weight: 650;
+	color: var(--accent);
+}
+
+.recap-detail {
+	font-size: 0.7em;
+	color: var(--muted);
+}
+
+/* So far: what needs wonder-slim */
+
+.slide-standalone h2 {
+	margin-bottom: 0.2em;
+}
+
+.slide-standalone .lead {
+	margin-bottom: 0.9em;
+	font-size: 0.8em;
+	color: var(--accent);
+}
+
+.standalone {
+	border-collapse: collapse;
+	font-size: 0.6em;
+}
+
+.standalone th {
+	padding: 0 1.4em 0.5em;
+	font-size: 0.75em;
+	font-weight: 600;
+	letter-spacing: 0.1em;
+	text-transform: uppercase;
+	color: var(--muted);
+}
+
+.standalone td {
+	padding: 0.32em 1.4em;
+	border-top: 1px solid var(--line);
+}
+
+.standalone td:first-child {
+	padding-left: 0;
+	font-weight: 600;
+}
+
+.standalone .yes,
+.standalone .no {
+	text-align: center;
+	font-weight: 700;
+}
+
+.standalone .yes {
+	color: var(--accent);
+}
+
+.standalone .no {
+	color: var(--line);
+}
+
+/* The ng column: what carries on after WO */
+.standalone .ng {
+	background: color-mix(in srgb, var(--accent) 8%, transparent);
+}
+
+.standalone tr.needs td:first-child {
+	color: var(--muted);
+}
+
+/* A project's opening slide */
+
+.slide-title .replaces {
+	margin-top: 2.2em;
+	font-size: 0.8em;
+}
+
+.slide-title .replaces-label {
+	margin-right: 0.5em;
+	font-size: 0.75em;
+	font-weight: 600;
+	letter-spacing: 0.12em;
+	text-transform: uppercase;
+	color: var(--muted);
+}
+
+/* wonder-slim: what we kept */
+
+.slide-removed .kept {
+	margin-top: -0.4em;
+	font-size: 1.1em;
+	color: var(--muted);
+}
+
+.slide-removed .figure {
+	margin-top: 2.2em;
+}
+
+.figure-numbers {
+	font-size: 3.2em;
+	font-weight: 700;
+	font-variant-numeric: tabular-nums;
+	letter-spacing: -0.035em;
+	line-height: 1;
+	white-space: nowrap;
+}
+
+.figure-before {
+	color: var(--muted);
+	text-decoration: line-through;
+	text-decoration-thickness: 0.05em;
+}
+
+.figure-label {
+	margin-top: 0.6em;
+	font-size: 0.6em;
+	color: var(--muted);
+}
+
+/* Code slides: panes side by side, labels and notes */
+
+.slide-code h2 {
+	margin-bottom: 0.6em;
+}
+
+.panes {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+	gap: 2.4cqw;
+	align-items: start;
+}
+
+.pane-label {
+	margin: 0.9em 0 0.35em;
+	font-size: 0.42em;
+	font-weight: 600;
+	letter-spacing: 0.14em;
+	text-transform: uppercase;
+	color: var(--accent);
+}
+
+.panes > div > .pane-label:first-child {
+	margin-top: 0;
+}
+
+.slide-code .panes pre {
+	font-size: 0.5em;
+	padding: 0.9em 1.1em;
+	white-space: pre;
+}
+
+.slide-code .panes pre + pre {
+	margin-top: 0.5em;
+}
+
+.notes {
+	display: grid;
+	gap: 0.35em;
+	margin-top: 0.9em;
+	padding: 0;
+	list-style: none;
+	font-size: 0.55em;
+	color: var(--muted);
+}
+
+.notes code {
+	white-space: nowrap;
+}
+
+.notes li::before {
+	content: "– ";
+	color: var(--accent);
+}
+
+.admin-pages {
+	display: grid;
+	gap: 0.55em;
+	padding: 0;
+	list-style: none;
+	font-size: 0.62em;
+}
+
+.admin-pages strong {
+	color: var(--fg);
+	font-weight: 600;
+}
+
+.admin-pages li {
+	color: var(--muted);
+}
+
+.admin-link {
+	margin-top: 1.2em;
+	font-size: 0.8em;
+}
+
+/* Parsley */
+
+.shots {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: 1.2cqh;
+}
+
+.shot {
+	max-height: 22cqh;
+	max-width: 100%;
+	border-radius: 0.3em;
+	box-shadow: 0 0.4cqh 2cqh rgb(0 0 0 / 0.35);
+}
+
+.resolution {
+	margin-top: 1em;
+	font-size: 0.75em;
+}
+
+.slide-code pre.trace {
+	font-size: 0.48em;
+	padding: 1em 1.2em;
+	white-space: pre;
+}
+
+.inline-error-demo {
+	padding: 0.9em 1.1em;
+	border: 1px solid var(--line);
+	border-radius: 0.5em;
+	background: #fff;
+	color: #1f2328;
+	font-size: 0.55em;
+}
+
+.inline-error-demo p + p {
+	margin-top: 0.6em;
+}
+
+.slide-code .panes pre.tree {
+	font-size: 0.42em;
+	line-height: 1.45;
+}
+
+.layers {
+	display: grid;
+	gap: 0.45em;
+	margin: 0;
+	padding-left: 1.4em;
+	font-size: 0.6em;
+	color: var(--muted);
+}
+
+.layers strong {
+	color: var(--fg);
+	font-weight: 600;
+}
+
+.layers li::marker {
+	color: var(--accent);
+	font-weight: 600;
+}
+
+/* Parslips: everything, from the changelog */
+
+.slide-changes {
+	justify-content: flex-start;
+	padding-top: 6cqh;
+}
+
+.slide-changes h2 {
+	margin-bottom: 0.5em;
+	font-size: 1.4em;
+}
+
+.changes {
+	columns: 4;
+	column-gap: 2cqw;
+	font-size: 0.39em;
+	line-height: 1.35;
+}
+
+.change-group {
+	break-inside: avoid;
+	margin-bottom: 1.1em;
+}
+
+.change-group h3 {
+	margin-bottom: 0.4em;
+	font-size: 1.05em;
+	font-weight: 650;
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+	color: var(--accent);
+}
+
+.change-group ul {
+	display: grid;
+	gap: 0.35em;
+	padding: 0;
+	list-style: none;
+	color: var(--muted);
+}
+
+.change-group li::before {
+	content: "– ";
+	color: var(--accent);
+}
+
+.panes-before-after {
+	grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+}
+
+.slide-code .panes-before-after > div:first-child pre {
+	font-size: 0.4em;
+}
+
+.panes-before-after .resolution {
+	font-size: 0.6em;
+}
+
+.changes-three {
+	columns: 3;
+	column-gap: 3cqw;
+	font-size: 0.44em;
+}
+
+.slide-code .lead {
+	margin: -0.3em 0 1em;
+	font-size: 0.95em;
+	color: var(--accent);
+}
+
+.slide-code .panes pre.ast {
+	font-size: 0.36em;
+	line-height: 1.45;
+}
+
+.panes-ast {
+	grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+}
+
+.slide-code .panes-ast pre.ast {
+	tab-size: 2;
+}
+
+.slide-statement .statement {
+	text-wrap: balance;
+}
+
+.slide-statement .statement-followup {
+	margin-top: 0.5em;
+}
+
+.panes-apiext {
+	grid-template-columns: minmax(0, 1fr) minmax(0, 1.7fr);
+	gap: 1.6cqw;
+}
+
+.slide-code .panes pre.apiext {
+	font-size: 0.28em;
+	line-height: 1.35;
+	tab-size: 2;
+	white-space: pre-wrap;
+}
+
+.slide-apiext {
+	justify-content: flex-start;
+	padding-top: 5cqh;
+	padding-bottom: 10cqh;
+}
+
+.slide-apiext h2 {
+	margin-bottom: 0.3em;
+	font-size: 1.2em;
+}
+
+.excerpt-note {
+	margin-top: 0.6em;
+	font-size: 0.42em;
+	color: var(--muted);
+}
+
+/* wo-adaptor-jetty: performance */
+
+.perf {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: 1.6cqw;
+}
+
+.perf-card {
+	padding: 0.9em 1.1em 1em;
+	border: 1px solid var(--line);
+	border-radius: 0.5em;
+	background: color-mix(in srgb, var(--fg) 3%, transparent);
+}
+
+.perf-card-accent {
+	border-color: var(--accent);
+	background: color-mix(in srgb, var(--accent) 10%, transparent);
+}
+
+.perf-number {
+	font-size: 1.8em;
+	font-weight: 700;
+	letter-spacing: -0.03em;
+	line-height: 1.05;
+	font-variant-numeric: tabular-nums;
+}
+
+.perf-unit {
+	font-size: 0.45em;
+	font-weight: 600;
+	letter-spacing: 0;
+	color: var(--muted);
+}
+
+.perf-label {
+	margin-top: 0.5em;
+	font-size: 0.55em;
+	line-height: 1.35;
+}
+
+.perf-detail {
+	margin-top: 0.5em;
+	font-size: 0.48em;
+	line-height: 1.35;
+	color: var(--muted);
+}
+
+.perf-notes {
+	margin-top: 1.4em;
+}
+
+/* Diagrams: boxes and arrows in the theme's colours */
+
+.slide-diagram h2 {
+	margin-bottom: 0.7em;
+}
+
+.diagram {
+	width: 100%;
+	height: auto;
+	font-family: "Inter", system-ui, sans-serif;
+}
+
+.d-box {
+	fill: var(--bg);
+	stroke: var(--line);
+	stroke-width: 1.5;
+}
+
+.d-group {
+	fill: color-mix(in srgb, var(--fg) 3%, transparent);
+	stroke: var(--line);
+	stroke-width: 1.5;
+	stroke-dasharray: 5 4;
+}
+
+.d-accent {
+	stroke: var(--accent);
+	fill: color-mix(in srgb, var(--accent) 8%, var(--bg));
+}
+
+.d-inner {
+	fill: var(--bg);
+}
+
+.d-title {
+	fill: var(--fg);
+	font-size: 19px;
+	font-weight: 650;
+}
+
+.d-text-strong {
+	fill: var(--fg);
+	font-size: 14px;
+	font-weight: 600;
+}
+
+.d-text {
+	fill: var(--muted);
+	font-size: 13px;
+}
+
+.d-label {
+	fill: var(--muted);
+	font-size: 12px;
+	font-style: italic;
+}
+
+.d-arrow {
+	fill: none;
+	stroke: var(--accent);
+	stroke-width: 2.5;
+}
+
+.d-arrow-quiet {
+	stroke: var(--muted);
+	stroke-width: 1.5;
+	stroke-dasharray: 5 4;
+}
+
+.d-arrowhead {
+	fill: var(--accent);
+}
+
+/* wo-adaptor-jetty: the benchmark's charts, in the deck's colours */
+
+.slide-bench {
+	justify-content: flex-start;
+	padding-top: 6cqh;
+}
+
+.slide-bench h2 {
+	margin-bottom: 0.5em;
+}
+
+.bench {
+	display: grid;
+	grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr);
+	gap: 3cqw;
+	align-items: start;
+}
+
+.bench-chart {
+	width: 100%;
+	height: auto;
+}
+
+.bench-chart text {
+	font-family: "Inter", system-ui, sans-serif;
+}
+
+.bench-chart .text {
+	fill: var(--fg);
+}
+
+.bench-chart .muted {
+	fill: var(--muted);
+}
+
+.bench-chart .grid {
+	stroke: var(--line);
+}
+
+.bench-chart .jetty {
+	fill: var(--accent);
+	stroke: var(--accent);
+}
+
+.bench-chart .classic {
+	fill: #e0703a;
+	stroke: #e0703a;
+}
+
+.bench-chart .ring {
+	stroke: var(--bg);
+}
+
+.bench-notes {
+	margin-top: 0.4em;
+	gap: 0.7em;
+	font-size: 0.55em;
+}
+
+.bench-link {
+	margin-top: 1.4em;
+	font-size: 0.42em;
+	color: var(--muted);
+}
+
+.bench-link a {
+	color: var(--accent);
+	text-decoration: none;
+}
+
+.slide-handlers {
+	justify-content: flex-start;
+	padding-top: 6cqh;
+}
+
+.slide-handlers h2 {
+	margin-bottom: 0.3em;
+}
+
+.slide-handlers .lead {
+	margin-bottom: 0.6em;
+}
+
+.slide-handlers .panes {
+	grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+	margin-top: 0.8em;
+}
+
+.slide-handlers .panes pre {
+	font-size: 0.4em;
+}
+
+.slide-handlers .notes {
+	margin-top: 0;
+}
+
+/* AjaxSlim: the invoice editor */
+
+.invoice-layout {
+	display: grid;
+	grid-template-columns: 1.7fr 1fr;
+	gap: 3cqw;
+	align-items: start;
+}
+
+.invoice {
+	padding: 0.8em 1em;
+	border: 1px solid var(--line);
+	border-radius: 0.5em;
+	font-size: 0.6em;
+}
+
+.invoice-lines {
+	width: 100%;
+	border-collapse: collapse;
+	font-variant-numeric: tabular-nums;
+}
+
+.invoice-lines th {
+	padding: 0 0.5em 0.5em;
+	text-align: left;
+	font-size: 0.75em;
+	font-weight: 600;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	color: var(--muted);
+}
+
+.invoice-lines td {
+	padding: 0.35em 0.5em;
+	border-top: 1px solid var(--line);
+}
+
+.invoice-lines .num {
+	text-align: right;
+}
+
+.invoice-lines input {
+	width: 4.5em;
+	padding: 0.25em 0.4em;
+	border: 1px solid var(--line);
+	border-radius: 0.3em;
+	background: var(--code-bg);
+	color: var(--fg);
+	font: inherit;
+	text-align: right;
+}
+
+.invoice-lines input:focus {
+	outline: 2px solid var(--accent);
+	outline-offset: 1px;
+}
+
+.invoice-lines .remove a {
+	color: var(--muted);
+	text-decoration: none;
+}
+
+.invoice-lines .remove a:hover {
+	color: var(--accent);
+}
+
+.invoice-foot {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-top: 0.8em;
+}
+
+.invoice-foot .button {
+	font-size: 0.85em;
+}
+
+.invoice-total {
+	color: var(--muted);
+}
+
+.invoice-total strong {
+	margin-left: 0.4em;
+	font-size: 1.5em;
+	color: var(--fg);
+	font-variant-numeric: tabular-nums;
+}
+
+.invoice-notes {
+	margin-top: 0;
+}
+
+.demo-row {
+	display: flex;
+	gap: 1cqw;
+}
+
+.demo-row .demo-panel {
+	flex: 0 0 38%;
+	min-width: 0;
+}
+
+.history {
+	flex: 1;
+	min-height: 6em;
+	font-family: "JetBrains Mono", ui-monospace, monospace;
+	font-size: 0.5em;
+	color: var(--muted);
+}
+
+.history-entry:first-child {
+	color: var(--fg);
+}
+
+.demo .demo-actions {
+	justify-content: flex-start;
+	margin-top: 1em;
+}
+
+/* wonder-slim: what went in */
+
+.themes {
+	display: grid;
+	grid-template-columns: repeat(4, 1fr);
+	gap: 1.2cqw;
+}
+
+.theme {
+	padding: 0.8em 0.9em;
+	border-top: 0.35cqh solid var(--accent);
+	background: color-mix(in srgb, var(--fg) 3%, transparent);
+	border-radius: 0 0 0.4em 0.4em;
+}
+
+.theme-name {
+	font-size: 0.68em;
+	font-weight: 650;
+}
+
+.theme-detail {
+	margin-top: 0.4em;
+	font-size: 0.48em;
+	line-height: 1.35;
+	color: var(--muted);
+}
+
+/* This deck, live */
+
+.live {
+	display: flex;
+	gap: 2cqw;
+	align-items: stretch;
+}
+
+.live-panel {
+	padding: 1em 1.4em;
+	border: 1px solid var(--line);
+	border-radius: 0.5em;
+}
+
+.vitals {
+	display: grid;
+	grid-template-columns: repeat(2, auto);
+	gap: 0.8em 2.2em;
+	align-content: center;
+}
+
+.vital-value {
+	font-size: 1.15em;
+	font-weight: 650;
+	font-variant-numeric: tabular-nums;
+}
+
+.vital-label {
+	font-size: 0.45em;
+	letter-spacing: 0.12em;
+	text-transform: uppercase;
+	color: var(--muted);
+}
+
+.slide-live .demo-panel {
+	align-self: auto;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+}
+
+/* Footer and progress */
+
+.footer {
+	z-index: 1;
+	position: absolute;
+	right: 9cqw;
+	bottom: 4.5cqh;
+	left: 9cqw;
+	display: flex;
+	justify-content: space-between;
+	font-size: 0.45em;
+	color: var(--muted);
+}
+
+.footer-title {
+	color: inherit;
+	text-decoration: none;
+}
+
+.footer-title:hover {
+	color: var(--accent);
+}
+
+.footer-counter {
+	margin-left: 0.6em;
+	font-variant-numeric: tabular-nums;
+}
+
+.progress {
+	z-index: 1;
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	height: 0.6cqh;
+	background: var(--accent);
+}

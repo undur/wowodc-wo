@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title><wo:str value="$title" /></title>
+		<wo:ERXStyleSheet filename="slides.css" />
+		<wo:ERXJavaScript filename="prism.js" />
+		<wo:ERXJavaScript filename="slides.js" />
+	</head>
+	<body>
+		<wo:container elementName="main" class="stage" data-previous="$previousURL" data-next="$nextURL" data-overview="$overviewURL">
+			<wo:WOSwitchComponent WOComponentName="$slideComponentName" project="$currentProject" />
+			<footer class="footer">
+				<wo:link href="$overviewURL" class="footer-title"><wo:str value="$deckTitle" /></wo:link>
+				<span class="footer-where"><wo:str value="$counterName" /> <span class="footer-counter"><wo:str value="$counter" /></span></span>
+			</footer>
+			<html:div class="progress" style="$progressStyle" />
+		</wo:container>
+	</body>
+</html>

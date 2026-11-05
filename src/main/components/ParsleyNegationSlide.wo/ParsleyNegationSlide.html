@@ -1,0 +1,30 @@
+<section class="slide slide-code">
+	<h2>Negated bindings</h2>
+	<div class="panes">
+		<div>
+			<p class="pane-label">Before: a method for each</p>
+			<pre><code class="language-java">public boolean isNotDisabled() {
+	return !isDisabled();
+}</code></pre>
+			<pre><code class="language-markup">&lt;wo:if condition="$isNotDisabled"&gt;…&lt;/wo:if&gt;</code></pre>
+			<p class="pane-label">After</p>
+			<pre><code class="language-markup">&lt;wo:if condition="$!isDisabled"&gt;…&lt;/wo:if&gt;
+&lt;wo:if condition="$!user.isAdmin"&gt;Read only&lt;/wo:if&gt;</code></pre>
+		</div>
+		<div>
+			<p class="pane-label">An association, wrapping another</p>
+			<pre><code class="language-java">if( keyPath.charAt( 0 ) == '!' ) {
+	return new ParsleyNegatedBooleanAssociation(
+		keyPath.substring( 1 ) );
+}</code></pre>
+			<pre><code class="language-java">public Object valueInComponent( WOComponent c ) {
+	return !isTruthy( super.valueInComponent( c ) );
+}</code></pre>
+			<ul class="notes">
+				<li>False: <code>null</code>, <code>false</code> and zero. Anything else is true</li>
+				<li>Read-only: there's nothing to set</li>
+				<li>Your own: <code>Parsley.configure().associationFactory( … )</code></li>
+			</ul>
+		</div>
+	</div>
+</section>

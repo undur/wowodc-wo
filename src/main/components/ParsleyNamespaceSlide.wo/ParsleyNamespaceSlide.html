@@ -1,0 +1,29 @@
+<section class="slide slide-code">
+	<h2>Namespaces you register</h2>
+	<div class="panes">
+		<div>
+			<p class="pane-label">Application.java</p>
+			<pre><code class="language-java">Parsley.configure()
+	.elementFactory( "html",
+		new ParsleyHTMLElementFactory() )
+	.register();</code></pre>
+			<p class="pane-label">Then, any HTML tag is dynamic</p>
+			<pre><code class="language-markup">&lt;html:a href="$url" class="$linkClass"&gt;
+	Read more
+&lt;/html:a&gt;
+&lt;html:input type="checkbox" checked="$isChecked" /&gt;</code></pre>
+		</div>
+		<div>
+			<p class="pane-label">Instead of</p>
+			<pre><code class="language-markup">&lt;wo:container elementName="a"
+	href="$url" class="$linkClass"&gt;
+	Read more
+&lt;/wo:container&gt;</code></pre>
+			<ul class="notes">
+				<li>A namespace is a name and a factory that makes its elements</li>
+				<li><code>wo:</code> is always there; unregistered ones (<code>svg:</code>, <code>xsl:</code>) are plain HTML</li>
+				<li>This deck's progress bar is an <code>&lt;html:div&gt;</code></li>
+			</ul>
+		</div>
+	</div>
+</section>

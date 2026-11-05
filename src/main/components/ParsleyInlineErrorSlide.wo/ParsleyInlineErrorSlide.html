@@ -1,0 +1,18 @@
+<section class="slide slide-code">
+	<h2>An inline error, live</h2>
+	<div class="panes">
+		<div>
+			<p class="pane-label">The template</p>
+			<pre><code class="language-markup">&lt;p&gt;Signed in as &lt;wo:str value="$user.fullName" /&gt;&lt;/p&gt;
+&lt;p&gt;Email: &lt;wo:str value="$user.email" /&gt;&lt;/p&gt;</code></pre>
+			<pre><code class="language-java">public record User( String username, String email ) {}</code></pre>
+		</div>
+		<div>
+			<p class="pane-label">This page, rendering it now</p>
+			<div class="inline-error-demo">
+				<p>Signed in as <wo:str value="$user.fullName" /></p>
+				<p>Email: <wo:str value="$user.email" /></p>
+			</div>
+		</div>
+	</div>
+</section>

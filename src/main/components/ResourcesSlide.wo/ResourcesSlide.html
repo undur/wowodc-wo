@@ -1,0 +1,30 @@
+<section class="slide slide-code">
+	<h2>Resources</h2>
+	<p class="lead">Resources and their URLs work exactly the same in development and in production</p>
+	<div class="panes">
+		<div>
+			<p class="pane-label">Served by the application</p>
+			<pre><code class="language-none">GET /res/app/css/site@3f9c1e07ab.css
+
+Cache-Control: public, max-age=31536000, immutable
+ETag: "3f9c1e07ab"</code></pre>
+			<ul class="notes">
+				<li>Nothing to copy to the web server</li>
+				<li>Stamped with its content: cached for good, fresh after a deploy</li>
+				<li>An ETag on every resource: unchanged, it's a <code>304 Not Modified</code> with no body</li>
+				<li>Ranges, so video and audio seek</li>
+			</ul>
+		</div>
+		<div>
+			<p class="pane-label">Public resources, at the root</p>
+			<pre><code class="language-java">routes.fallback( new ERXPublicResources() );</code></pre>
+			<pre><code class="language-none">src/main/webserver-resources/public/
+    robots.txt          → /robots.txt
+    favicon.ico         → /favicon.ico
+    .well-known/…       → /.well-known/…</code></pre>
+			<ul class="notes">
+				<li>Asked of when no route answers</li>
+			</ul>
+		</div>
+	</div>
+</section>

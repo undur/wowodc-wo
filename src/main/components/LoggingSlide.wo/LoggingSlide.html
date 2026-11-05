@@ -1,0 +1,29 @@
+<section class="slide slide-code">
+	<h2>Logging</h2>
+	<p class="lead">No log4j needed, and pluggable backends such as logback</p>
+	<div class="panes">
+		<div>
+			<p class="pane-label">Properties</p>
+			<pre><code class="language-none">er.logging.level.root=INFO
+er.logging.level.com.example.billing=DEBUG
+er.logging.pattern=%d{MMM dd HH:mm:ss} %-5p %c - %m%n</code></pre>
+			<ul class="notes">
+				<li>Based on slf4j</li>
+				<li>A console logger built in: no logging framework needed</li>
+				<li>WebObjects' own NSLog ends up in the same log</li>
+				<li>Levels change on the running instance</li>
+			</ul>
+		</div>
+		<div>
+			<p class="pane-label">Files, rotation, appenders? Add one</p>
+			<pre><code class="language-markup">&lt;dependency&gt;
+	&lt;groupId&gt;is.rebbi.slim&lt;/groupId&gt;
+	&lt;artifactId&gt;ERLoggingLogback&lt;/artifactId&gt;
+&lt;/dependency&gt;</code></pre>
+			<ul class="notes">
+				<li>Or <code>ERLoggingReload4j</code>, for existing log4j configuration</li>
+				<li>The same keys work with either, or neither</li>
+			</ul>
+		</div>
+	</div>
+</section>

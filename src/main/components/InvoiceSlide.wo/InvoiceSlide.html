@@ -1,0 +1,38 @@
+<section class="slide slide-code">
+	<h2>Focus survives the update</h2>
+	<div class="invoice-layout">
+		<wo:form class="invoice">
+			<wo:AjaxUpdateContainer elementName="div" id="invoice">
+				<wo:AjaxObserveField updateContainerID="lines;total" elementName="div">
+					<wo:AjaxUpdateContainer elementName="div" id="lines">
+						<table class="invoice-lines">
+							<thead>
+								<tr><th>Product</th><th class="num">Qty</th><th class="num">Unit price</th><th class="num">Amount</th><th></th></tr>
+							</thead>
+							<tbody>
+								<wo:repetition list="$lines" item="$currentLine">
+									<tr>
+										<td><wo:str value="$currentLine.product" /></td>
+										<td class="num"><wo:textfield value="$currentLine.quantityField" id="$quantityFieldID" /></td>
+										<td class="num"><wo:textfield value="$currentLine.unitPriceField" id="$priceFieldID" /></td>
+										<td class="num amount"><wo:str value="$currentLine.lineTotal" /></td>
+										<td class="remove"><wo:AjaxUpdateLink action="$removeLine" updateContainerID="invoice" title="Remove line">×</wo:AjaxUpdateLink></td>
+									</tr>
+								</wo:repetition>
+							</tbody>
+						</table>
+					</wo:AjaxUpdateContainer>
+					<div class="invoice-foot">
+						<wo:AjaxUpdateLink action="$addLine" updateContainerID="invoice" class="button button-quiet">+ Add line</wo:AjaxUpdateLink>
+						<wo:AjaxUpdateContainer elementName="p" id="total" class="invoice-total">Total <strong><wo:str value="$total" /></strong></wo:AjaxUpdateContainer>
+					</div>
+				</wo:AjaxObserveField>
+			</wo:AjaxUpdateContainer>
+		</wo:form>
+		<ul class="notes invoice-notes">
+			<li>One observe field watches the whole form</li>
+			<li>Each change re-renders the lines and the total, around the field you're in</li>
+			<li>Tab on: the morph leaves your focus, cursor and selection where they were</li>
+		</ul>
+	</div>
+</section>

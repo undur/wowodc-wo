@@ -1,0 +1,35 @@
+<section class="slide slide-code">
+	<h2>Tag aliases and element replacements</h2>
+	<div class="panes panes-before-after">
+		<div>
+			<p class="pane-label">Before: WOOgnl's shortcuts, in a static block</p>
+			<pre><code class="language-java">static {
+	WOHelperFunctionTagRegistry.registerTagShortcut( "ERXWOConditional", "if" );
+	WOHelperFunctionTagRegistry.registerTagShortcut( "WORepetition", "loop" );
+	WOHelperFunctionTagRegistry.registerTagShortcut( "WOString", "str" );
+	…
+}</code></pre>
+			<p class="pane-label">Before: ERXPatcher, swapping classes at runtime</p>
+			<pre><code class="language-java">public static synchronized void installPatches() {
+	ERXPatcher.setClassForName( ERXHyperlink.class, "WOHyperlink" );
+	ERXPatcher.setClassForName( ERXSwitchComponent.class, "WOSwitchComponent" );
+	…
+}</code></pre>
+		</div>
+		<div>
+			<p class="pane-label">After: Parsley's aliases</p>
+			<pre><code class="language-none">if = WOConditional
+loop = WORepetition
+str = WOString</code></pre>
+			<p class="pane-label">After: ERExtensions' aliases</p>
+			<pre><code class="language-none">WOConditional = ERXWOConditional
+WOString = ERXWOString
+WOSwitchComponent = ERXWOSwitchComponent</code></pre>
+			<p class="resolution"><code>&lt;wo:str&gt;</code> → <code>WOString</code> → <code>ERXWOString</code></p>
+			<ul class="notes">
+				<li>Declared, so the editor sees them too</li>
+				<li>Any framework or app adds its own <code>parsley-tag-aliases.properties</code></li>
+			</ul>
+		</div>
+	</div>
+</section>

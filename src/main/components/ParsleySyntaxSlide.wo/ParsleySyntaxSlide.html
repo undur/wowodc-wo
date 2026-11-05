@@ -1,0 +1,26 @@
+<section class="slide slide-code">
+	<h2>What's new in the syntax</h2>
+	<div class="panes">
+		<div>
+			<p class="pane-label">HTML comments are just content</p>
+			<pre><code class="language-markup">&lt;!-- rendered, like any other HTML --&gt;</code></pre>
+			<p class="pane-label">p:comment: never rendered</p>
+			<pre><code class="language-markup">&lt;p:comment&gt;
+	Not in the page, and not run:
+	&lt;wo:str value="$this.wont.execute" /&gt;
+&lt;/p:comment&gt;</code></pre>
+		</div>
+		<div>
+			<p class="pane-label">p:raw: passed through untouched</p>
+			<pre><code class="language-markup">&lt;p:raw&gt;
+&lt;script&gt;
+	var template = "&lt;wo:SomeComponent /&gt;";
+&lt;/script&gt;
+&lt;/p:raw&gt;</code></pre>
+			<ul class="notes">
+				<li>Both nest</li>
+				<li>Errors name the line and column</li>
+			</ul>
+		</div>
+	</div>
+</section>

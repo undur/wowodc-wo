@@ -1,0 +1,79 @@
+<section class="slide slide-changes">
+	<h2>Parslips, from its changelog</h2>
+	<div class="changes">
+		<div class="change-group">
+			<h3>Editing templates</h3>
+			<ul>
+				<li>Tag and attribute completion; self-closing tags arrive with their required bindings</li>
+				<li>Close-tag completion that knows void elements, scripts, <code>p:raw</code> and <code>p:comment</code></li>
+				<li>A formatter that keeps your lines, blank lines and <code>&amp;nbsp;</code></li>
+				<li>Standalone <code>.html</code> templates, not just <code>.wo</code> bundles</li>
+				<li>Maven and Fluffy Bunny layouts</li>
+				<li>Inline ↔ WOD, one tag or a whole template; bundle ↔ standalone</li>
+				<li>F3 on a tag; Cmd+Alt+1 to the Java, Cmd+Alt+5 to the API</li>
+				<li>Highlighting that follows Eclipse's theme</li>
+			</ul>
+		</div>
+		<div class="change-group">
+			<h3>Validation</h3>
+			<ul>
+				<li>Bindings checked as you type, and again when the Java is saved or the classpath changes</li>
+				<li>Revalidate every template in a project, with honest problem counts</li>
+				<li>Missing <code>&gt;</code> and <code>=</code>, duplicate attributes, stray close tags</li>
+				<li>Bindings that can't be pushed back to a synchronizing parent</li>
+				<li>KVC operators on Java collections</li>
+				<li>Route links checked, their parameters completed</li>
+			</ul>
+		</div>
+		<div class="change-group">
+			<h3>Quick fixes and refactoring</h3>
+			<ul>
+				<li>"Did you mean?" for keypaths and element names</li>
+				<li>Create the missing key or action from Cmd+1</li>
+				<li>Rename a component, key or element across Java, HTML and WOD</li>
+				<li>Extract Component, Extract Wrapper</li>
+				<li>Find References and a Usages tab that include the templates</li>
+			</ul>
+		</div>
+		<div class="change-group">
+			<h3>Element APIs</h3>
+			<ul>
+				<li><code>.apiext</code> for every standard WebObjects element</li>
+				<li>Hovers with types, direction, docs and the alias chain</li>
+				<li>An Element Reference view</li>
+				<li>The API tab edits <code>.apiext</code> and writes the <code>.api</code></li>
+				<li>Each project's own tag aliases, for WO and for ng</li>
+			</ul>
+		</div>
+		<div class="change-group">
+			<h3>WebObjects and ng-objects</h3>
+			<ul>
+				<li>Both in one plugin, decided per template, so hybrid projects work</li>
+				<li>A Parsley perspective and Explorer</li>
+				<li>Installs next to WOLips: shared content types, its keybindings respected</li>
+			</ul>
+		</div>
+		<div class="change-group">
+			<h3>The dev server</h3>
+			<ul>
+				<li>On by default, no password, and back after an Eclipse restart</li>
+				<li>Launch, stop, restart, status, console: every answer says what happened</li>
+				<li>Refresh, validate and problems as JSON</li>
+				<li>Create or import a project and run it, in one call</li>
+				<li>Why an app hangs: threads, dialogs, breakpoints</li>
+				<li>Ask the editor: context, keypaths, usages, callers, renames, quick fixes</li>
+				<li>Click a stack trace in the browser, land in Eclipse</li>
+				<li>An activity feed, and a live page to watch an agent work</li>
+			</ul>
+		</div>
+		<div class="change-group">
+			<h3>Removed</h3>
+			<ul>
+				<li>EOF and EOModeler: about 130 files</li>
+				<li>Plist, JSP, XML/DTD, display group, JavaScript and CSS editors</li>
+				<li>Velocity, Rhino, JTidy, Xerces, Ant and the old builders</li>
+				<li>PB.project and patternsets</li>
+			</ul>
+		</div>
+	</div>
+</section>

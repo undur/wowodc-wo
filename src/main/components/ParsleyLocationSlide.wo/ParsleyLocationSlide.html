@@ -1,0 +1,14 @@
+<section class="slide slide-code">
+	<h2>Exceptions know where they happened</h2>
+	<pre class="trace"><code class="language-none">java.lang.IllegalStateException: The badge has no colour
+	at wowodc.wo.components.demo.TemplateExceptionDemo.badgeStyle(TemplateExceptionDemo.java:18)
+	…
+	Suppressed: parsley.ParsleyBindingLocation: binding style = $badgeStyle
+	Suppressed: parsley.ParsleySourceLocation: at TemplateExceptionDemo.html:10:13 (&lt;wo:container&gt;)</code></pre>
+	<ul class="notes">
+		<li>The template, line and column, the element and the binding</li>
+		<li>Carried on the exception itself: in the log, on the error page, wherever it goes</li>
+		<li>The original exception, its type and its stack trace are untouched</li>
+	</ul>
+	<p class="admin-link">Live: <wo:link href="/demo/template-exception" target="_blank" class="button">/demo/template-exception</wo:link></p>
+</section>

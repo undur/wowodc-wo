@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>wowodc.wo</groupId>
+	<artifactId>wowodc-wo</artifactId>
+	<version>1.0.0-SNAPSHOT</version>
+	<packaging>woapplication</packaging>
+
+	<properties>
+		<maven.compiler.release>25</maven.compiler.release>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+
+	<repositories>
+		<repository>
+			<id>wocommunity</id>
+			<url>https://maven.wocommunity.org/content/groups/public</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+	</repositories>
+
+	<dependencies>
+		<dependency>
+			<groupId>is.rebbi.slim</groupId>
+			<artifactId>ERExtensions</artifactId>
+			<version>8.1.3</version>
+		</dependency>
+		<dependency>
+			<groupId>is.rebbi.slim</groupId>
+			<artifactId>AjaxSlim</artifactId>
+			<version>8.1.3</version>
+		</dependency>
+		<dependency>
+			<groupId>is.rebbi.slim</groupId>
+			<artifactId>ERControl</artifactId>
+			<version>8.1.3</version>
+		</dependency>
+		<dependency>
+			<groupId>is.rebbi</groupId>
+			<artifactId>wo-adaptor-jetty</artifactId>
+			<version>0.12.3</version>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>is.rebbi</groupId>
+				<artifactId>vermilingua-maven-plugin</artifactId>
+				<version>1.1.12</version>
+				<extensions>true</extensions>
+			</plugin>
+		</plugins>
+	</build>
+</project>

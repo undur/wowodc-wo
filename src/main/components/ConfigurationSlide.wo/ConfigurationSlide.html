@@ -1,0 +1,29 @@
+<section class="slide slide-code">
+	<h2>Configuration</h2>
+	<p class="lead">Composed once, in main(), before the application exists</p>
+	<div class="panes">
+		<div>
+			<p class="pane-label">The sources, each one winning over those above it</p>
+			<ol class="layers">
+				<li>Each framework's <strong>Properties</strong></li>
+				<li>The application's <strong>Properties</strong></li>
+				<li><strong>~/WebObjects.properties</strong>, then the machine's</li>
+				<li><strong>Properties.dev</strong> in development, and <strong>Properties.&lt;user&gt;</strong></li>
+				<li>The JVM's <strong>-D</strong> options, then the application's arguments</li>
+				<li>Properties <strong>set on the running instance</strong></li>
+			</ol>
+		</div>
+		<div>
+			<ul class="notes">
+				<li>Every property knows where it came from: the startup report and the admin console's Configuration page say so</li>
+				<li>Read again when a file changes in development, or a touch file in deployment</li>
+				<li>Frameworks join startup as plugins, found through ServiceLoader</li>
+			</ul>
+			<p class="pane-label">And code can listen</p>
+			<pre><code class="language-java">ERXConfigurationManager.onChange(
+	"er.example.timeout",
+	change -&gt; log.info( "now {}", change.newValue() )
+);</code></pre>
+		</div>
+	</div>
+</section>
