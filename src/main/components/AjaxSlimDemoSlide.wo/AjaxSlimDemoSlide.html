@@ -1,0 +1,34 @@
+<section class="slide slide-code">
+	<h2>Two containers, one request</h2>
+	<div class="panes">
+		<div>
+			<pre><code class="language-markup">&lt;wo:AjaxUpdateContainer id="count"&gt;…
+&lt;wo:AjaxUpdateContainer id="history"&gt;…
+
+&lt;wo:AjaxUpdateLink action="$addOne"
+	updateContainerID="count;history"&gt;
+	Add one
+&lt;/wo:AjaxUpdateLink&gt;</code></pre>
+			<ul class="notes">
+				<li>Both containers rendered in the same response, and morphed in</li>
+				<li>A failure shows as a message, not a dead page</li>
+			</ul>
+		</div>
+		<div class="demo">
+			<div class="demo-row">
+				<wo:AjaxUpdateContainer id="count" class="live-panel demo-panel">
+					<p class="demo-count"><wo:str value="$count" /></p>
+				</wo:AjaxUpdateContainer>
+				<wo:AjaxUpdateContainer id="history" class="live-panel history">
+					<wo:repetition list="$history" item="$currentEntry">
+						<p class="history-entry"><wo:str value="$currentEntry" /></p>
+					</wo:repetition>
+				</wo:AjaxUpdateContainer>
+			</div>
+			<p class="demo-actions">
+				<wo:AjaxUpdateLink action="$addOne" updateContainerID="count;history" class="button">Add one</wo:AjaxUpdateLink>
+				<wo:AjaxUpdateLink action="$fail" updateContainerID="count" class="button button-quiet">Break it</wo:AjaxUpdateLink>
+			</p>
+		</div>
+	</div>
+</section>

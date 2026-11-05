@@ -1,0 +1,35 @@
+<section class="slide slide-code">
+	<h2>Routing</h2>
+	<div class="panes">
+		<div>
+			<p class="pane-label">Application.java</p>
+			<pre><code class="language-java">public Application() {
+	ERXRouter.declare( routes -&gt; {
+		routes.map( "/", Main.class );
+		routes.map( "/books/{book}", BookPage.class );
+		routes.map( "/feed", ri -&gt; feed( ri ) );
+	} );
+}</code></pre>
+			<p class="pane-label">BookPage.java</p>
+			<pre><code class="language-java">public class BookPage extends ERXComponent {
+
+	public Integer book; // set from the URL
+}</code></pre>
+		</div>
+		<div>
+			<p class="pane-label">Routes.java</p>
+			<pre><code class="language-java">public interface Routes {
+
+	default Object routes() {
+		return RouteKeys.of( Routes.class );
+	}
+
+	PlainRoute book = Route.plain();
+}</code></pre>
+			<p class="pane-label">A link, in any template</p>
+			<pre><code class="language-markup">&lt;wo:route to="$routes.book" :book="$book.id"&gt;
+	&lt;wo:str value="$book.title" /&gt;
+&lt;/wo:route&gt;</code></pre>
+		</div>
+	</div>
+</section>

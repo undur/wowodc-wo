@@ -1,0 +1,18 @@
+<section class="slide slide-live">
+	<h2>These slides are a <em class="name">wonder-slim</em> app</h2>
+	<div class="live">
+		<wo:AjaxSelfUpdatingContainer id="vitals" frequency="2" class="live-panel vitals">
+			<div class="vital"><p class="vital-value"><wo:str value="$uptime" /></p><p class="vital-label">up</p></div>
+			<div class="vital"><p class="vital-value"><wo:str value="$heapUsed" /></p><p class="vital-label">heap used</p></div>
+			<div class="vital"><p class="vital-value"><wo:str value="$threads" /></p><p class="vital-label">threads</p></div>
+			<div class="vital"><p class="vital-value"><wo:str value="$javaVersion" /></p><p class="vital-label">Java</p></div>
+		</wo:AjaxSelfUpdatingContainer>
+		<wo:AjaxUpdateContainer id="counter" class="live-panel demo-panel">
+			<p class="demo-count"><wo:str value="$count" /></p>
+			<p class="demo-actions">
+				<wo:AjaxUpdateLink action="$increment" updateContainerID="counter" class="button">Add one</wo:AjaxUpdateLink>
+			</p>
+		</wo:AjaxUpdateContainer>
+	</div>
+	<p class="aside">AjaxSlim refreshes the left panel every two seconds; each click on the right is a component action, morphed into the page.</p>
+</section>

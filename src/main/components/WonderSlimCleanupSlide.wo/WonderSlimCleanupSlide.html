@@ -1,0 +1,41 @@
+<section class="slide slide-changes">
+	<h2>A huge amount of cleanup</h2>
+	<div class="changes changes-three">
+		<div class="change-group">
+			<h3>Modernization</h3>
+			<ul>
+				<li>Maven instead of ant, one reactor build, released to Maven</li>
+				<li>Java 11 → 17 → 21 → 25</li>
+				<li>Java's List and Map, records, java.time and lambdas, wherever the API is ours</li>
+				<li>Generics and current syntax throughout what was kept</li>
+				<li>Typed notifications with lambda observers, instead of strings and selectors</li>
+				<li>Small value types as records: the user agent, route handlers, notification observers</li>
+				<li>Configuration composed once in main(); frameworks as ServiceLoader plugins</li>
+			</ul>
+		</div>
+		<div class="change-group">
+			<h3>Deleting utility code</h3>
+			<ul>
+				<li>Most of the ERX*Utilities: arrays, strings, files, dictionaries. The JDK does it now</li>
+				<li>ERXMoney, Joda support, BCrypt and crypto, dozens of formatters</li>
+				<li>ERXExpiringCache, ERXMutableURL, ERXSimpleTemplateParser, ERXActionLogging</li>
+				<li>About 100 ERX components: tab panels, batch navigation, matrices, RSS, ERXClippy…</li>
+				<li>About 35 Prototype widgets from Ajax</li>
+				<li>Dependencies: commons-lang, commons-codec, httpclient, icu4j, joda-time, log4j</li>
+			</ul>
+		</div>
+		<div class="change-group">
+			<h3>Cleaning up code and design</h3>
+			<ul>
+				<li>About 690 commits that delete or remove something, and about 190 called "cleanup"</li>
+				<li>EOF support out: ERExtensions went from 525 classes to 223</li>
+				<li>ERXPatcher's runtime class swaps → substitutions declared in a file</li>
+				<li>ERXLoader's 845 lines of classpath munging → a check that fails loudly</li>
+				<li>ERXLocalizer → ERXLocale; the browser pool → ERXUserAgent</li>
+				<li>ERXP: every property ERExtensions reads, in one place; 309 obsolete ones named at startup, each with why</li>
+				<li>Every element documented in .api and .apiext</li>
+				<li>Javadoc and comments rewritten in the code that stayed</li>
+			</ul>
+		</div>
+	</div>
+</section>

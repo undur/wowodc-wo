@@ -1,0 +1,46 @@
+<section class="slide slide-code">
+	<h2>The .woa, simplified</h2>
+	<div class="panes">
+		<div>
+			<p class="pane-label">Before</p>
+			<pre class="tree"><code class="language-none">MyApp.woa/
+    MyApp
+    MyApp.cmd
+    Contents/
+        Info.plist
+        MacOS/
+            MyApp
+            MacOSClassPath.txt
+            MacOSXServerClassPath.txt
+        UNIX/
+            UNIXClassPath.txt
+        Windows/
+            MyApp.cmd
+            CLSSPATH.TXT
+            SUBPATHS.TXT
+        Resources/
+            Java/
+        WebServerResources/</code></pre>
+		</div>
+		<div>
+			<p class="pane-label">After</p>
+			<pre class="tree"><code class="language-none">MyApp.woa/
+    MyApp           the launch script
+    config.txt      how to launch
+    classpath.txt   one entry per line
+    Contents/
+        Info.plist
+        Resources/
+            Java/
+        WebServerResources/</code></pre>
+			<p class="pane-label">config.txt</p>
+			<pre><code class="language-none">principalClass=myapp.Application
+jvm=/opt/jdk-25/bin/java
+jvmOptions=-Xmx2g</code></pre>
+			<ul class="notes">
+				<li>No per-platform folders and classpath files</li>
+				<li>Plain text you can read, and change on the server</li>
+			</ul>
+		</div>
+	</div>
+</section>

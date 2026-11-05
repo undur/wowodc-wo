@@ -1,0 +1,22 @@
+<section class="slide slide-code">
+	<h2>Supports both WOOgnl-style inline bindings and .wod templates</h2>
+	<div class="panes">
+		<div>
+			<p class="pane-label">.wod: two files</p>
+			<pre><code class="language-markup">&lt;webobject name="Name" /&gt;</code></pre>
+			<pre><code class="language-none">Name : WOString {
+	value = person.name;
+}</code></pre>
+		</div>
+		<div>
+			<p class="pane-label">Inline: one</p>
+			<pre><code class="language-markup">&lt;wo:str value="$person.name" /&gt;
+&lt;wo:str value="Hello" /&gt;
+&lt;wo:if condition="$true"&gt;…&lt;/wo:if&gt;</code></pre>
+			<ul class="notes">
+				<li><code>$</code> is a keypath, anything else a constant</li>
+				<li>The WOOgnl syntax, without needing OGNL</li>
+			</ul>
+		</div>
+	</div>
+</section>

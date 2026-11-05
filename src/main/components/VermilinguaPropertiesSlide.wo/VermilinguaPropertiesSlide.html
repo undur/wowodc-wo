@@ -1,0 +1,30 @@
+<section class="slide slide-code">
+	<h2>Overriding build.properties</h2>
+	<div class="panes">
+		<div>
+			<p class="pane-label">build.properties</p>
+			<pre><code class="language-none">launch.jvm=/opt/jdk-25/bin/java
+launch.jvmOptions=-Xmx2g</code></pre>
+			<p class="pane-label">When building</p>
+			<pre><code class="language-none">mvn package -Dlaunch.jvm=/opt/jdk-26/bin/java</code></pre>
+			<p class="pane-label">When launching</p>
+			<pre><code class="language-none">./MyApp.woa/MyApp "-launch.jvmOptions=-Xmx4g"</code></pre>
+			<p class="pane-label">Per environment: build.properties.prod</p>
+			<pre><code class="language-none">mvn package -Dbuild.env=prod</code></pre>
+		</div>
+		<div>
+			<p class="pane-label">First match wins</p>
+			<ol class="layers">
+				<li><strong>-launch.*</strong> arguments to the launch script</li>
+				<li><strong>-D</strong> properties when building</li>
+				<li><strong>build.properties.&lt;env&gt;</strong>, with <code>-Dbuild.env</code></li>
+				<li><strong>build.properties</strong></li>
+				<li>Built-in defaults</li>
+			</ol>
+			<ul class="notes">
+				<li>A different JVM or more memory on one server, without changing a committed file</li>
+				<li>The launch script uses <code>-launch.*</code> arguments itself; the application never sees them</li>
+			</ul>
+		</div>
+	</div>
+</section>

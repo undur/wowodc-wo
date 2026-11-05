@@ -1,0 +1,23 @@
+<section class="slide slide-code">
+	<h2>Short URLs</h2>
+	<p class="lead">The same URLs in development and in deployment</p>
+	<div class="panes">
+		<div>
+			<p class="pane-label">Before</p>
+			<pre><code class="language-none">/cgi-bin/WebObjects/MyApp.woa/wa/invoice?id=12
+/cgi-bin/WebObjects/MyApp.woa/wo/7Hk3…/0.3.1
+/cgi-bin/WebObjects/MyApp.woa/res/app/site.css</code></pre>
+		</div>
+		<div>
+			<p class="pane-label">After</p>
+			<pre><code class="language-none">/wa/invoice?id=12
+/wo/7Hk3…/0.3.1
+/res/app/site.css</code></pre>
+		</div>
+	</div>
+	<ul class="notes">
+		<li>On by default</li>
+		<li>The long form keeps working, behind Apache or not</li>
+		<li>The foundation for routing: the root is free for routes such as <code>/</code> and <code>/books/12</code></li>
+	</ul>
+</section>

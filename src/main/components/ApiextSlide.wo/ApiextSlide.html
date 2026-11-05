@@ -1,0 +1,70 @@
+<section class="slide slide-code slide-apiext">
+	<h2>WOHyperlink, described</h2>
+	<div class="panes panes-apiext">
+		<div>
+			<p class="pane-label">ERXWOHyperlink.api</p>
+			<pre class="apiext"><code class="language-markup">&lt;?xml version="1.0" encoding="UTF-8" standalone="yes"?&gt;
+&lt;wodefinitions&gt;
+	&lt;wo class="ERXWOHyperlink" wocomponentcontent="true"&gt;
+		&lt;binding name="href"/&gt;
+		&lt;binding name="action" defaults="Actions"/&gt;
+		&lt;binding name="pageName" defaults="Page Names"/&gt;
+		&lt;binding name="directActionName" defaults="Direct Actions"/&gt;
+		&lt;binding name="actionClass" defaults="Direct Action Classes"/&gt;
+		&lt;binding name="queryDictionary"/&gt;
+		&lt;binding name="fragmentIdentifier"/&gt;
+		&lt;binding name="secure" defaults="Boolean"/&gt;
+		&lt;binding name="string"/&gt;
+		&lt;binding name="target"/&gt;
+		&lt;binding name="disabled" defaults="Boolean"/&gt;
+		&lt;validation message="One of 'href', 'action', 'pageName' or 'directActionName'/'actionClass' must be bound"&gt;
+			&lt;and&gt;
+				&lt;unbound name="href"/&gt;
+				&lt;unbound name="action"/&gt;
+				&lt;unbound name="pageName"/&gt;
+				&lt;unbound name="directActionName"/&gt;
+				&lt;unbound name="actionClass"/&gt;
+			&lt;/and&gt;
+		&lt;/validation&gt;
+	&lt;/wo&gt;
+&lt;/wodefinitions&gt;</code></pre>
+		</div>
+		<div>
+			<p class="pane-label">ERXWOHyperlink.apiext</p>
+			<pre class="apiext"><code class="language-markup">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;wodefinitions&gt;
+	&lt;wo class="ERXWOHyperlink" content="allowed" unknownAttributes="passthrough"&gt;
+
+		&lt;doc&gt;&lt;![CDATA[Renders a link, `&lt;a&gt;`: to a URL (`href`), a component action (`action`), a page (`pageName`), or a direct action (`directActionName`/`actionClass`). Installed in place of `WOHyperlink`, so it's what `&lt;wo:link&gt;` and `WOHyperlink` render. Differences from WO's:
+
+- A disabled link's action returns the current page, not an empty response.
+- Actions of elements inside the link (such as an `onclick` element) are invoked.
+- The invoked action is recorded for logging.
+- With `er.extensions.ERXHyperlink.defaultNoFollow`, links with an `action` get `rel="nofollow"`.
+
+Attributes prefixed with `?` become query parameters (`?id="$item.id"`). Every other attribute is rendered on the tag.]]&gt;&lt;/doc&gt;
+
+		&lt;binding name="href"&gt;&lt;pull&gt;&lt;type&gt;java.lang.String&lt;/type&gt;&lt;/pull&gt;&lt;doc&gt;URL to link to.&lt;/doc&gt;&lt;/binding&gt;
+		&lt;binding name="action"&gt;&lt;pull&gt;&lt;type&gt;com.webobjects.appserver.WOActionResults&lt;/type&gt;&lt;/pull&gt;&lt;doc&gt;Component action invoked when the link is followed.&lt;/doc&gt;&lt;/binding&gt;
+		&lt;binding name="pageName"&gt;&lt;pull&gt;&lt;type&gt;java.lang.String&lt;/type&gt;&lt;/pull&gt;&lt;doc&gt;Name of the page to go to.&lt;/doc&gt;&lt;/binding&gt;
+		&lt;binding name="directActionName"&gt;&lt;pull&gt;&lt;type&gt;java.lang.String&lt;/type&gt;&lt;/pull&gt;&lt;doc&gt;Direct action to link to (in `actionClass`, or `DirectAction`).&lt;/doc&gt;&lt;/binding&gt;
+		&lt;binding name="actionClass"&gt;&lt;pull&gt;&lt;type&gt;java.lang.String&lt;/type&gt;&lt;/pull&gt;&lt;doc&gt;Direct action class. Without `directActionName`, its default action.&lt;/doc&gt;&lt;/binding&gt;
+		&lt;binding name="queryDictionary"&gt;&lt;pull&gt;&lt;type&gt;java.util.Map&lt;/type&gt;&lt;/pull&gt;&lt;doc&gt;Query parameters added to the URL.&lt;/doc&gt;&lt;/binding&gt;
+		&lt;binding name="fragmentIdentifier"&gt;&lt;pull&gt;&lt;type&gt;java.lang.String&lt;/type&gt;&lt;/pull&gt;&lt;doc&gt;Fragment (`#…`) appended to the URL.&lt;/doc&gt;&lt;/binding&gt;
+		&lt;binding name="secure"&gt;&lt;pull&gt;&lt;type&gt;java.lang.Boolean&lt;/type&gt;&lt;/pull&gt;&lt;doc&gt;Generate an https URL.&lt;/doc&gt;&lt;/binding&gt;
+		&lt;binding name="string"&gt;&lt;pull&gt;&lt;type&gt;java.lang.String&lt;/type&gt;&lt;/pull&gt;&lt;doc&gt;Text of the link.&lt;/doc&gt;&lt;/binding&gt;
+		&lt;binding name="target"&gt;&lt;pull&gt;&lt;type&gt;java.lang.String&lt;/type&gt;&lt;/pull&gt;&lt;doc&gt;The link's `target` attribute.&lt;/doc&gt;&lt;/binding&gt;
+		&lt;binding name="disabled"&gt;&lt;pull&gt;&lt;type interpretation="truthy"&gt;java.lang.Object&lt;/type&gt;&lt;/pull&gt;&lt;doc&gt;If true, renders the content without a link.&lt;/doc&gt;&lt;/binding&gt;
+
+		&lt;choose min="1" max="1"&gt;
+			&lt;binding name="href"/&gt;
+			&lt;binding name="action"/&gt;
+			&lt;binding name="pageName"/&gt;
+			&lt;any-of&gt;&lt;binding name="directActionName"/&gt;&lt;binding name="actionClass"/&gt;&lt;/any-of&gt;
+		&lt;/choose&gt;
+
+	&lt;/wo&gt;
+&lt;/wodefinitions&gt;</code></pre>
+		</div>
+	</div>
+</section>

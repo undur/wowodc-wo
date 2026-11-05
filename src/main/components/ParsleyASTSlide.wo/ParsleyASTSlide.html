@@ -1,0 +1,15 @@
+<section class="slide slide-code">
+	<h2>Templates become an AST</h2>
+	<p class="lead">First, an intermediate representation: an AST of the file</p>
+	<div class="panes panes-ast">
+		<div>
+			<p class="pane-label">This slide's template</p>
+			<pre class="ast"><code><wo:str value="$templateSource" /></code></pre>
+		</div>
+		<div>
+			<p class="pane-label">The AST, parsed as the slide renders</p>
+			<pre class="ast"><code><wo:str value="$ast" /></code></pre>
+		</div>
+	</div>
+	<p class="aside">Each element knows where in the file it was parsed from.</p>
+</section>

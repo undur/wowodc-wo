@@ -1,0 +1,8 @@
+<section class="slide slide-title">
+	<p class="kicker"><wo:str value="$project.group" /> · since <wo:str value="$project.since" /></p>
+	<h1><wo:str value="$nameHTML" escapeHTML="$false" /></h1>
+	<p class="subtitle"><wo:str value="$project.tagline" /></p>
+	<wo:if condition="$project.replaces">
+		<p class="replaces"><span class="replaces-label">Replaces</span> <wo:str value="$project.replaces" /></p>
+	</wo:if>
+</section>

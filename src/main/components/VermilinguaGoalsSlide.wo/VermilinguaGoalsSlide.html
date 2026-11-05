@@ -1,0 +1,27 @@
+<section class="slide slide-code">
+	<h2>Deploying, from Maven</h2>
+	<p class="lead">Two goals, both still experimental</p>
+	<div class="panes">
+		<div>
+			<p class="pane-label">vermilingua:deploy, through JavaMonitor</p>
+			<pre><code class="language-none">mvn package vermilingua:deploy \
+	-Ddeploy.monitorHost=https://monitor.example.com \
+	-Ddeploy.password=…</code></pre>
+			<ul class="notes">
+				<li>Uploads the built .woa to JavaMonitor's deploy endpoint</li>
+				<li>wotaskd puts it on every host the application runs on</li>
+				<li>Settings in build.properties or as -D, like everything else</li>
+			</ul>
+		</div>
+		<div>
+			<p class="pane-label">vermilingua:ssh-deploy, straight to a server</p>
+			<pre><code class="language-none">mvn vermilingua:ssh-deploy -Ddeploy.host=me@myserver</code></pre>
+			<ul class="notes">
+				<li>rsync into a new release folder: a redeploy sends only what changed</li>
+				<li>Installs Java on the server, and keeps it updated with every deploy</li>
+				<li>Keeps the five newest releases</li>
+				<li>Or name an exe.dev VM: <code>-Ddeploy.exe.vm=myvm</code>, created if it doesn't exist</li>
+			</ul>
+		</div>
+	</div>
+</section>

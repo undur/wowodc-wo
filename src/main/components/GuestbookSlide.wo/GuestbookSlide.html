@@ -1,0 +1,18 @@
+<section class="slide slide-code">
+	<h2>Guestbook</h2>
+	<div class="guestbook">
+		<wo:form class="guestbook-form">
+			<label>Name <wo:textfield value="$signer" placeholder="Your name" /></label>
+			<label>Message <wo:text value="$message" rows="4" placeholder="Say hello" /></label>
+			<wo:submit action="$sign" value="Sign" class="button" />
+		</wo:form>
+		<ul class="guestbook-entries">
+			<wo:repetition list="$entries" item="$currentEntry">
+				<li>
+					<p class="guestbook-message"><wo:str value="$currentEntry.message" /></p>
+					<p class="guestbook-signer"><wo:str value="$currentEntry.name" />, <wo:str value="$currentEntry.timeString" /></p>
+				</li>
+			</wo:repetition>
+		</ul>
+	</div>
+</section>

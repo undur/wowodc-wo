@@ -1,0 +1,8 @@
+<section class="slide slide-list">
+	<h2><wo:str value="$project.name" /></h2>
+	<ul>
+		<wo:repetition list="$project.points" item="$currentPoint">
+			<li><wo:str value="$currentPointHTML" escapeHTML="$false" /></li>
+		</wo:repetition>
+	</ul>
+</section>

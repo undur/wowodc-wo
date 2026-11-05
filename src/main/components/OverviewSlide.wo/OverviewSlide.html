@@ -1,0 +1,23 @@
+<section class="slide slide-overview">
+	<header class="overview-header">
+		<p class="kicker">WOWODC 2026 · Hugi Thordarson</p>
+		<div class="overview-title">
+			<h1><wo:str value="$deckTitle" /></h1>
+			<wo:link href="$whyURL" class="button why-link">Why →</wo:link>
+		</div>
+	</header>
+	<div class="overview-groups">
+		<wo:repetition list="$groups" item="$currentGroup">
+			<div class="overview-group">
+				<h3><wo:str value="$currentGroup" /></h3>
+				<wo:repetition list="$projectsInCurrentGroup" item="$currentProject">
+					<wo:link href="$currentProject.url" class="tile">
+						<span class="tile-name"><wo:str value="$currentProject.name" /></span>
+						<span class="tile-tagline"><wo:str value="$currentProject.tagline" /></span>
+						<span class="tile-since">since <wo:str value="$currentProject.since" /></span>
+					</wo:link>
+				</wo:repetition>
+			</div>
+		</wo:repetition>
+	</div>
+</section>

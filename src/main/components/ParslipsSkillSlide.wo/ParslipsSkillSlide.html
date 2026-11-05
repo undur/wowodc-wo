@@ -1,0 +1,46 @@
+<section class="slide slide-code slide-diagram">
+	<h2>parslips-skill</h2>
+	<p class="lead">What the agent talks to, all of it over HTTP</p>
+	<svg class="diagram" viewBox="0 0 1000 430" role="img" aria-label="An AI agent following parslips-skill calls Parslips' dev server in Eclipse on port 9485, which reaches the workspace (refresh, build, problems), launches (launch, restart, console, threads) and the template model (validate, element APIs, keypaths, renames, quick fixes). Launches start the running app on port 1200, which the agent also calls directly for its log, eval and problems.">
+		<defs>
+			<marker id="arrow-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+				<path d="M 0 0 L 10 5 L 0 10 z" class="d-arrowhead" />
+			</marker>
+		</defs>
+
+		<rect x="0" y="120" width="160" height="100" rx="12" class="d-box" />
+		<text x="80" y="160" class="d-title" text-anchor="middle">AI agent</text>
+		<text x="80" y="188" class="d-text" text-anchor="middle">following the skill</text>
+
+		<rect x="200" y="0" width="540" height="330" rx="14" class="d-group" />
+		<text x="220" y="32" class="d-title">Eclipse</text>
+
+		<rect x="220" y="120" width="160" height="100" rx="10" class="d-box d-accent" />
+		<text x="300" y="160" class="d-text-strong" text-anchor="middle">Dev server</text>
+		<text x="300" y="188" class="d-text" text-anchor="middle">:9485, JSON</text>
+
+		<rect x="440" y="50" width="280" height="80" rx="10" class="d-box" />
+		<text x="580" y="83" class="d-text-strong" text-anchor="middle">Workspace</text>
+		<text x="580" y="110" class="d-text" text-anchor="middle">refresh, build, problems</text>
+
+		<rect x="440" y="140" width="280" height="80" rx="10" class="d-box" />
+		<text x="580" y="173" class="d-text-strong" text-anchor="middle">Launches</text>
+		<text x="580" y="200" class="d-text" text-anchor="middle">launch, restart, console, threads</text>
+
+		<rect x="440" y="230" width="280" height="80" rx="10" class="d-box" />
+		<text x="580" y="263" class="d-text-strong" text-anchor="middle">Templates</text>
+		<text x="580" y="290" class="d-text" text-anchor="middle">validate, APIs, keypaths, renames</text>
+
+		<rect x="780" y="130" width="220" height="100" rx="12" class="d-box" />
+		<text x="890" y="170" class="d-title" text-anchor="middle">Running app</text>
+		<text x="890" y="198" class="d-text" text-anchor="middle">WO or ng, :1200</text>
+
+		<line x1="160" y1="170" x2="216" y2="170" class="d-arrow" marker-end="url(#arrow-s)" />
+		<line x1="380" y1="160" x2="436" y2="95" class="d-arrow d-arrow-quiet" marker-end="url(#arrow-s)" />
+		<line x1="380" y1="170" x2="436" y2="180" class="d-arrow d-arrow-quiet" marker-end="url(#arrow-s)" />
+		<line x1="380" y1="180" x2="436" y2="265" class="d-arrow d-arrow-quiet" marker-end="url(#arrow-s)" />
+		<line x1="720" y1="180" x2="776" y2="180" class="d-arrow d-arrow-quiet" marker-end="url(#arrow-s)" />
+		<path d="M 80 220 L 80 380 L 890 380 L 890 234" fill="none" class="d-arrow" marker-end="url(#arrow-s)" />
+		<text x="485" y="412" class="d-label" text-anchor="middle">and straight to the app: its log, eval, problems</text>
+	</svg>
+</section>
