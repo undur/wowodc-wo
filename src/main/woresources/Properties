@@ -1,0 +1,2 @@
+# Requests handled concurrently: printing the PDF (DeckPDF) requests the print page from this application while the PDF request is still being handled
+WOAllowsConcurrentRequestHandling=true

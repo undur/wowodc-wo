@@ -104,6 +104,12 @@ body {
 	margin: 0;
 }
 
+/* Text keeps the size the stage gives it: Safari on a phone otherwise enlarges it when the phone is turned sideways */
+html {
+	-webkit-text-size-adjust: 100%;
+	text-size-adjust: 100%;
+}
+
 body {
 	display: grid;
 	place-items: center;
@@ -123,7 +129,13 @@ body {
 	overflow: hidden;
 	container-type: size;
 	background: var(--bg);
-	font-size: 4.2cqh;
+
+	/*
+	 * 4.2% of the stage's height. Not 4.2cqh: the stage's own container units measure the window, not the stage, so
+	 * text outgrew a stage shorter than its window (a phone held upright, a narrow window). The stage's height is the
+	 * smaller of the window's height and 9/16 of its width.
+	 */
+	font-size: min(4.2vh, 4.2vw * 9 / 16);
 	line-height: 1.35;
 }
 
@@ -431,6 +443,21 @@ em {
 	margin-top: 4.5cqh;
 }
 
+.overview-source {
+	margin-top: 4.5cqh;
+	font-size: 0.5em;
+	color: var(--muted);
+}
+
+.overview-source a {
+	color: var(--accent);
+	text-decoration: none;
+}
+
+.overview-source a:hover {
+	text-decoration: underline;
+}
+
 .overview-group {
 	display: flex;
 	flex-direction: column;
@@ -500,6 +527,58 @@ em {
 
 .why-link {
 	font-size: 0.6em;
+}
+
+.pdf-link {
+	margin-left: auto;
+	font-size: 0.45em;
+}
+
+/*
+ * The print page (DeckPDF prints it): every slide in turn, each a page the size of the stage, with its backgrounds,
+ * standing still, and without the download button
+ */
+
+@page {
+	size: 1600px 900px;
+	margin: 0;
+}
+
+body.print {
+	display: block;
+	height: auto;
+	overflow: visible;
+	-webkit-print-color-adjust: exact;
+	print-color-adjust: exact;
+}
+
+.print .stage {
+	width: 1600px;
+	height: 900px;
+	aspect-ratio: auto;
+	font-size: 37.8px;
+	break-after: page;
+}
+
+.print *,
+.print *::before,
+.print *::after {
+	animation: none !important;
+	transition: none !important;
+}
+
+.print .pdf-link {
+	display: none;
+}
+
+/* The last slide ends the document, without a blank page after it */
+.print .stage:last-of-type {
+	break-after: auto;
+}
+
+/* Anything added beside the slides (in development, Parsley's error banner and controls) stays off the pages */
+body.print > :not(main) {
+	display: none !important;
 }
 
 /* Why: the statement's kicker, the path and the shared design */

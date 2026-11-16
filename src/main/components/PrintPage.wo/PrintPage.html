@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title><wo:str value="$deckTitle" /></title>
+		<wo:ERXStyleSheet filename="slides.css" />
+		<wo:ERXJavaScript filename="prism.js" />
+	</head>
+	<body class="print">
+		<wo:repetition list="$slides" item="$currentSlide">
+			<main class="stage">
+				<wo:WOSwitchComponent WOComponentName="$currentSlide.componentName" project="$currentSlide.project" />
+				<footer class="footer">
+					<span class="footer-title"><wo:str value="$deckTitle" /></span>
+					<span class="footer-where"><wo:str value="$currentSlide.counterName" /> <span class="footer-counter"><wo:str value="$currentSlide.counter" /></span></span>
+				</footer>
+			</main>
+		</wo:repetition>
+	</body>
+</html>

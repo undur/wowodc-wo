@@ -1,6 +1,9 @@
 package wowodc.wo;
 
 import com.webobjects.appserver.WOActionResults;
+import com.webobjects.appserver.WOApplication;
+import com.webobjects.appserver.WOResponse;
+import com.webobjects.foundation.NSData;
 
 import er.extensions.appserver.ERXApplication;
 import er.extensions.resources.ERXPublicResources;
@@ -9,6 +12,7 @@ import er.extensions.routing.RouteHandler;
 import er.extensions.routing.RouteInvocation;
 import parsley.Parsley;
 import parsley.ParsleyHTMLElementFactory;
+import wowodc.wo.components.PrintPage;
 import wowodc.wo.components.SlidePage;
 import wowodc.wo.components.demo.TemplateExceptionDemo;
 
@@ -27,6 +31,8 @@ public class Application extends ERXApplication {
 		ERXRouter.declare( routes -> {
 			routes.map( "/", SlidePage.class );
 			routes.map( "/demo/template-exception", TemplateExceptionDemo.class );
+			routes.map( "/print", PrintPage.class );
+			routes.map( "/pdf", Application::pdf );
 			routes.map( "/{project}/{slide?}", Application::slide );
 			routes.fallback( new ERXPublicResources() );
 		} );
@@ -39,6 +45,19 @@ public class Application extends ERXApplication {
 	@Override
 	protected Class _sessionClass() {
 		return Session.class;
+	}
+
+	/**
+	 * @return The deck as a PDF, to download
+	 */
+	private static WOActionResults pdf( final RouteInvocation invocation ) {
+		final byte[] pdf = DeckPDF.pdf( "http://127.0.0.1:" + WOApplication.application().port() + "/print" );
+
+		final WOResponse response = new WOResponse();
+		response.setHeader( "application/pdf", "content-type" );
+		response.setHeader( "attachment; filename=\"my-own-wo.pdf\"", "content-disposition" );
+		response.setContent( new NSData( pdf ) );
+		return response;
 	}
 
 	/**
